@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html style="background-color: #edede9">
+    <head>
+        <title>Симулятор PID управління</title>
+        <meta charset="utf-8" />
+
+        <link rel="stylesheet" href="jquery-ui.css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style></style>
+
+        <script src="jquery.min.js"></script>
+        <script src="jquery-ui.min.js"></script>
+        <script src="plot.js"></script>
+        <script src="pid.js"></script>
+        <script src="pid-autotune.js"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <div id="plots" class="flex justify-center mt-6">
+            <canvas id="plot1" width="1000" height="350"></canvas>
+        </div>
+        <div class="flex justify-center flex-col items-center">
+            <div class="my-4 font-bold text-gray-400">Час: <span id="time"></span></div>
+            <div>
+                <button
+                    id="start"
+                    class="px-4 py-2 font-bold text-gray-500 bg-gray-200 rounded-md hover:bg-green-400 hover:text-white"
+                >
+                    Start
+                </button>
+                <button
+                    id="stop"
+                    class="px-4 py-2 font-bold text-gray-500 bg-gray-200 rounded-md hover:bg-green-400 hover:text-white"
+                >
+                    Stop
+                </button>
+                <button
+                    id="toggle"
+                    class="px-4 py-2 font-bold text-gray-500 bg-gray-200 rounded-md hover:bg-green-400 hover:text-white"
+                >
+                    PID is ON
+                </button>
+            </div>
+        </div>
+
+        <section class="flex justify-center flex-row items-start mt-4 gap-2">
+            <section class="flex justify-center flex-col items-center">
+                <div class="p-4 bg-white border border-solid rounded">
+                    <div class="mb-4">
+                        Приклад процесу:
+                        <span style="width: 80px" id="process" class="display: inline-block"></span>
+                        <div
+                            class="display: inline-block"
+                            style="width: 100px; margin-right: 10px"
+                            id="sliderProcess"
+                        ></div>
+                        Час вибірки (мс):
+                        <span
+                            class="display: inline-block"
+                            style="width: 40px"
+                            id="sampletime"
+                        ></span>
+                        <div
+                            class="display: inline-block"
+                            style="width: 100px; margin-left: 10px"
+                            id="sliderSampletime"
+                        ></div>
+                    </div>
+                    <div>
+                        Уставка:
+                        <span id="setpoint"></span>
+                        <div style="width: 600px" id="sliderSetpoint"></div>
+                    </div>
+
+                    <div>
+                        Шум:
+                        <span id="noise"></span>
+                        <div style="width: 600px" id="sliderNoise"></div>
+                    </div>
+
+                    <div>
+                        Kp (пропорційний приріст):
+                        <span id="kp"></span>
+                        <div style="width: 600px" id="sliderKp"></div>
+                    </div>
+
+                    <div>
+                        Ki (інтегральний виграш):
+                        <span id="ki"></span>
+                        <div style="width: 600px" id="sliderKi"></div>
+                    </div>
+
+                    <div>
+                        Kd (похідний прибуток):
+                        <span id="kd"></span>
+                        <div style="width: 600px" id="sliderKd"></div>
+                    </div>
+                </div>
+                <div class="m-2 text-gray-400">
+                    <b class="text-gray-500">Параметри функції процесу:<br /></b>
+                    output: контрольний вихід<br />
+                    function return value: контрольний вхід<br />
+                    noise: визначений користувачем шум процесу<br />
+                    input: останній контрольний вхід (необов'язково)<br />
+                    user: користувальницька змінна для зберігання довгострокових даних
+                    (необов'язково)<br />
+                    time: поточний час (мс) (необов'язково)<br />
+                </div>
+            </section>
+            <section class="flex justify-center flex-col items-start">
+                <div class="p-4 bg-white border border-solid rounded flex flex-col">
+                    <span class="mb-4 text-gray-500">
+                        Функція процесу (модель): контрольний вхід = function(time, input, noise,
+                        output, user):</span
+                    >
+                    <textarea id="processFunc" rows="6" cols="70"></textarea>
+                    <button
+                        class="mt-4 px-4 py-2 font-bold text-gray-500 bg-gray-200 rounded-md hover:bg-green-400 hover:text-white"
+                        id="apply"
+                    >
+                        Apply
+                    </button>
+                </div>
+                <ul class="m-2">
+                    <b class="text-gray-500">Батьківскі посилання</b>
+                    <li>
+                        <a
+                            class="text-cyan-500 hover:text-cyan-600"
+                            href="https://github.com/br3ttb/Arduino-PID-Library"
+                            >Arduino-PID-Library</a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            class="text-cyan-500 hover:text-cyan-600"
+                            href="https://github.com/br3ttb/Arduino-PID-AutoTune-Library"
+                            >Arduino-PID-AutoTune-Library</a
+                        >
+                    </li>
+                </ul>
+            </section>
+        </section>
+        <section class="flex justify-center flex-row items-start"></section>
+    </body>
+</html>
